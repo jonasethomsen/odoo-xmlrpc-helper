@@ -69,7 +69,11 @@ function parseDomain(input: string | undefined): any {
   }
 
   let domain = input
-    .replace(/'/g, '"')
+    .replace(/'/g, '"')  // replace single quotes with double quotes for JSON parsing
+    .replace(/\(/g, '[')  // replace open parenthesis with open square bracket
+    .replace(/\)/g, ']')  // replace close parenthesis with close square bracket
+    .replace(/True/g, 'true')  // replace Python True with JSON true
+    .replace(/False/g, 'false')  // replace Python False with JSON false
     .replace(/(\\n)/g, "")
     .replace(/(\\r)/g, "")
     .replace(/(\\t)/g, "")
@@ -79,9 +83,7 @@ function parseDomain(input: string | undefined): any {
     .replace(/(}")/g, "}")
     .replace(/(\")/g, "\"")
     .replace(/(\\)/g, "")
-    .replace(/(\/)/g, "/")
-    .replace(/(True)/g, "\"TRUE\"")
-    .replace(/(False)/g, "\"FALSE\"");  // Added this line for False
+    .replace(/(\/)/g, "/");
 
   try {
     return JSON.parse(domain);
