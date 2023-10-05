@@ -18,9 +18,9 @@ This is a private module that provides a TypeScript client for interacting with 
 
 Since this package is hosted privately on GitHub, you can install it using:
 
-\`\`\`bash
+```bash
 npm install git+https://github.com/your-username/your-repo.git#semver:^1.0.0
-\`\`\`
+```
 
 Replace `your-username` and `your-repo` with the appropriate GitHub username and repository name. Adjust the semver tag as needed.
 
@@ -28,7 +28,7 @@ Replace `your-username` and `your-repo` with the appropriate GitHub username and
 
 First, make sure you have environment variables or configurations set up for the Odoo instance you're connecting to.
 
-\`\`\`javascript
+```javascript
 import { createOdooClient } from 'odoo-client-ts';
 
 const client = createOdooClient({
@@ -46,15 +46,15 @@ async function exampleUsage() {
 }
 
 exampleUsage();
-\`\`\`
+```
 
 ## Testing
 
 This module includes unit tests. Run the tests with:
 
-\`\`\`bash
+```bash
 npm test
-\`\`\`
+```
 
 ## Contributing
 

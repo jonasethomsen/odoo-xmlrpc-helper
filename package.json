@@ -1,5 +1,5 @@
 {
-    "name": "your-odoo-helper",
+    "name": "odoo-xmlrpc-helper",
     "version": "1.0.0",
     "description": "A helper class for interacting with Odoo",
     "main": "dist/index.js",
