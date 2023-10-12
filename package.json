@@ -5,9 +5,7 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "build": "tsc",
-        "prepublishOnly": "tsc",
-        "prepare": "husky install"
+        "build": "tsc"
     },
     "repository": {
         "type": "git",
