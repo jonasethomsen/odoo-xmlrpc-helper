@@ -1,65 +1,86 @@
-# Odoo Client TypeScript Module
+# Odoo XML-RPC Helper Module Documentation
 
-This is a private module that provides a TypeScript client for interacting with the Odoo XML-RPC API.
+## Overview
+
+The Odoo XML-RPC Helper is a TypeScript-based module designed to facilitate seamless integration with Odoo's XML-RPC API. It simplifies the process of performing various operations such as CRUD, custom API calls, and authentication within a TypeScript project.
 
 ## Features
 
-- Authentication
-- CRUD Operations
-- Custom API Calls
-- Type Safety with TypeScript
+- **Simplified Authentication:** Streamlines the login process to the Odoo instance.
+- **CRUD Operations:** Supports Create, Read, Update, and Delete operations on Odoo models.
+- **Custom API Calls:** Enables calling custom methods defined in Odoo models.
+- **Enhanced Type Safety:** Utilizes TypeScript for improved code reliability and maintainability.
 
-## Requirements
+## Prerequisites
 
 - Node.js
-- Odoo instance with XML-RPC enabled
+- Access to an Odoo instance with XML-RPC API enabled
 
 ## Installation
 
-Since this package is hosted privately on GitHub, you can install it using:
+This module is private and hosted on GitHub. Install it using npm by replacing `your-username` and `your-repo` with your GitHub credentials:
 
-```bash
+```
 npm install git+https://github.com/your-username/your-repo.git#semver:^1.0.0
 ```
 
-Replace `your-username` and `your-repo` with the appropriate GitHub username and repository name. Adjust the semver tag as needed.
+## Setup
 
-## Usage
+Configure your environment with the Odoo instance details:
 
-First, make sure you have environment variables or configurations set up for the Odoo instance you're connecting to.
-
-```javascript
-import { createOdooClient } from 'odoo-client-ts';
+```typescript
+import { createOdooClient } from 'odoo-xmlrpc-helper';
 
 const client = createOdooClient({
-  url: 'http://localhost:8069',
-  db: 'my_database',
-  username: 'admin',
-  password: 'password'
+  url: 'http://your-odoo-instance.com',
+  db: 'your-database',
+  username: 'your-username',
+  password: 'your-password'
 });
+```
 
+## API Methods
+
+### `login(): Promise<number | null>`
+
+Authenticates the user and retrieves the user ID.
+
+### `call(model: string, method: string, args?: any[], kwargs?: any): Promise<any>`
+
+Calls a custom method on an Odoo model.
+
+### `search(model: string, domain: any[], kwargs?: any, context?: object): Promise<any>`
+
+Searches for records in an Odoo model based on a domain.
+
+### `read(model: string, ids: any[], fields?: any[], context?: object): Promise<any>`
+
+Reads specified fields from records in an Odoo model.
+
+### `write(model: string, ids: any[], values: any): Promise<any>`
+
+Updates records in an Odoo model.
+
+### `create(model: string, values: any): Promise<any>`
+
+Creates a new record in an Odoo model.
+
+### `unlink(model: string, ids: any[]): Promise<any>`
+
+Deletes records from an Odoo model.
+
+## Example Usage
+
+Here is an example of how to use the module to perform a login and fetch partners marked as companies:
+
+```typescript
 async function exampleUsage() {
   const uid = await client.login();
   const partners = await client.search('res.partner', [['is_company', '=', true]]);
   const partnerData = await client.read('res.partner', partners, ['name', 'country_id', 'comment']);
-  console.log(partnerData);
+  return partnerData;
 }
 
-exampleUsage();
+let contactsFromOdooWhereCompanyIsTrue = exampleUsage();
+
 ```
-
-## Testing
-
-This module includes unit tests. Run the tests with:
-
-```bash
-npm test
-```
-
-## Contributing
-
-This is a private package, so contributions are not accepted.
-
-## License
-
-This package is for internal usage only and is not licensed for external distribution.
