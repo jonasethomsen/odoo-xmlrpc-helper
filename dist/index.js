@@ -21,10 +21,10 @@ function parseDomain(input) {
     }
     let domain = input
         .replace(/'/g, '"') // replace single quotes with double quotes for JSON parsing
-        .replace(/\(/g, '[') // replace open parenthesis with open square bracket
-        .replace(/\)/g, ']') // replace close parenthesis with close square bracket
-        .replace(/True/g, 'true') // replace Python True with JSON true
-        .replace(/False/g, 'false') // replace Python False with JSON false
+        .replace(/\(/g, "[") // replace open parenthesis with open square bracket
+        .replace(/\)/g, "]") // replace close parenthesis with close square bracket
+        .replace(/True/g, "true") // replace Python True with JSON true
+        .replace(/False/g, "false") // replace Python False with JSON false
         .replace(/(\\n)/g, "")
         .replace(/(\\r)/g, "")
         .replace(/(\\t)/g, "")
@@ -32,7 +32,7 @@ function parseDomain(input) {
         .replace(/(\\b)/g, "")
         .replace(/("{)/g, "{")
         .replace(/(}")/g, "}")
-        .replace(/(\")/g, "\"")
+        .replace(/(\")/g, '"')
         .replace(/(\\)/g, "")
         .replace(/(\/)/g, "/");
     try {
@@ -88,6 +88,11 @@ function createOdooClient(config) {
     function search(model, domain, kwargs = {}, context = {}) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield call(model, "search", [domain], Object.assign(Object.assign({}, kwargs), { context }));
+        });
+    }
+    function searchCount(model, domain, context = {}) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield call(model, "search_count", [domain], { context });
         });
     }
     function read(model, ids, fields = [], context = {}) {
@@ -166,7 +171,9 @@ function createOdooClient(config) {
     }
     function filterGetResults(filterId, fields, kwargs = {}, context = {}) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response_filter = yield get('ir.filters', [parseInt(filterId)]);
+            const response_filter = (yield get("ir.filters", [
+                parseInt(filterId),
+            ]));
             const response_filter_data = response_filter[0];
             // return response_filter_data;
             const response_filter_domain = parseDomain(response_filter_data.domain);
@@ -178,6 +185,7 @@ function createOdooClient(config) {
         login,
         call,
         search,
+        searchCount,
         read,
         get,
         write,
@@ -191,7 +199,7 @@ function createOdooClient(config) {
         onChange,
         workflowSignal,
         searchRead,
-        filterGetResults
+        filterGetResults,
     };
 }
 exports.createOdooClient = createOdooClient;

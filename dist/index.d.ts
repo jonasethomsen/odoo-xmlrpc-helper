@@ -8,6 +8,7 @@ interface OdooClient {
     login: () => Promise<number | null>;
     call: (model: string, method: string, args?: any[], kwargs?: any) => Promise<any>;
     search: (model: string, domain: any[], kwargs?: any, context?: object) => Promise<any>;
+    searchCount: (model: string, domain: any[], context?: object) => Promise<any>;
     read: (model: string, ids: any[], fields?: any[], context?: object) => Promise<any>;
     get: (model: string, ids: any[], context?: object) => Promise<any>;
     write: (model: string, ids: any[], values: any) => Promise<any>;

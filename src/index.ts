@@ -26,6 +26,7 @@ interface OdooClient {
     kwargs?: any,
     context?: object
   ) => Promise<any>;
+  searchCount: (model: string, domain: any[], context?: object) => Promise<any>;
   read: (
     model: string,
     ids: any[],
@@ -60,20 +61,20 @@ interface OdooClient {
     kwargs?: any,
     context?: object
   ) => Promise<any>;
-  filterGetResults: any
+  filterGetResults: any;
 }
 
 function parseDomain(input: string | undefined): any {
   if (input === undefined) {
-    return null;  // Or however you want to handle undefined input
+    return null; // Or however you want to handle undefined input
   }
 
   let domain = input
-    .replace(/'/g, '"')  // replace single quotes with double quotes for JSON parsing
-    .replace(/\(/g, '[')  // replace open parenthesis with open square bracket
-    .replace(/\)/g, ']')  // replace close parenthesis with close square bracket
-    .replace(/True/g, 'true')  // replace Python True with JSON true
-    .replace(/False/g, 'false')  // replace Python False with JSON false
+    .replace(/'/g, '"') // replace single quotes with double quotes for JSON parsing
+    .replace(/\(/g, "[") // replace open parenthesis with open square bracket
+    .replace(/\)/g, "]") // replace close parenthesis with close square bracket
+    .replace(/True/g, "true") // replace Python True with JSON true
+    .replace(/False/g, "false") // replace Python False with JSON false
     .replace(/(\\n)/g, "")
     .replace(/(\\r)/g, "")
     .replace(/(\\t)/g, "")
@@ -81,7 +82,7 @@ function parseDomain(input: string | undefined): any {
     .replace(/(\\b)/g, "")
     .replace(/("{)/g, "{")
     .replace(/(}")/g, "}")
-    .replace(/(\")/g, "\"")
+    .replace(/(\")/g, '"')
     .replace(/(\\)/g, "")
     .replace(/(\/)/g, "/");
 
@@ -89,7 +90,7 @@ function parseDomain(input: string | undefined): any {
     return JSON.parse(domain);
   } catch (e) {
     console.error("Failed to parse domain:", e);
-    return null;  // Or however you want to handle parsing failures
+    return null; // Or however you want to handle parsing failures
   }
 }
 
@@ -148,6 +149,10 @@ function createOdooClient(config?: OdooConfig): OdooClient {
     context: any = {}
   ) {
     return await call(model, "search", [domain], { ...kwargs, context });
+  }
+
+  async function searchCount(model: string, domain: any[], context: any = {}) {
+    return await call(model, "search_count", [domain], { context });
   }
 
   async function read(
@@ -234,12 +239,25 @@ function createOdooClient(config?: OdooConfig): OdooClient {
     return data;
   }
 
-  async function filterGetResults(filterId: string, fields: string[], kwargs: any = {}, context: any = {}) {
-    const response_filter = await get('ir.filters', [parseInt(filterId)]) as any;
+  async function filterGetResults(
+    filterId: string,
+    fields: string[],
+    kwargs: any = {},
+    context: any = {}
+  ) {
+    const response_filter = (await get("ir.filters", [
+      parseInt(filterId),
+    ])) as any;
     const response_filter_data = response_filter[0];
     // return response_filter_data;
     const response_filter_domain = parseDomain(response_filter_data.domain);
-    const data = await searchRead(response_filter_data.model_id, response_filter_domain, fields, kwargs, context)
+    const data = await searchRead(
+      response_filter_data.model_id,
+      response_filter_domain,
+      fields,
+      kwargs,
+      context
+    );
     return data;
   }
 
@@ -247,6 +265,7 @@ function createOdooClient(config?: OdooConfig): OdooClient {
     login,
     call,
     search,
+    searchCount,
     read,
     get,
     write,
@@ -260,7 +279,7 @@ function createOdooClient(config?: OdooConfig): OdooClient {
     onChange,
     workflowSignal,
     searchRead,
-    filterGetResults
+    filterGetResults,
   };
 }
 
