@@ -1,28 +1,28 @@
 {
-    "name": "odoo-xmlrpc-helper",
-    "version": "1.1.0",
-    "description": "A helper class for interacting with Odoo",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "scripts": {
-        "build": "tsc"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/jonasethomsen/odoo-xmlrpc-helper.git"
-    },
-    "keywords": [
-        "Odoo",
-        "TypeScript",
-        "Helper"
-    ],
-    "author": "Jonas E. Thomsen",
-    "license": "MIT",
-    "devDependencies": {
-        "@types/node": "^20.8.4",
-        "typescript": "^4.1.3"
-    },
-    "dependencies": {
-        "@foxglove/xmlrpc": "^1.3.0"
-    }
+  "name": "odoo-xmlrpc-helper",
+  "version": "1.2.0",
+  "description": "A helper class for interacting with Odoo",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonasethomsen/odoo-xmlrpc-helper.git"
+  },
+  "keywords": [
+    "Odoo",
+    "TypeScript",
+    "Helper"
+  ],
+  "author": "Jonas E. Thomsen",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.8.4",
+    "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "@foxglove/xmlrpc": "^1.3.0"
+  }
 }
